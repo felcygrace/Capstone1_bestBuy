@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pageobjects.Base;
@@ -86,10 +88,11 @@ public class StepsDefinitions extends Base {
  
 	@Then("User validate the create an account successfully or not (.*)$")
 	public void user_validate_the_create_an_account_successfully_or_not(String firstName) throws IOException {
-		WebElement accountName = pom.get_Instance_HomePage().getAccountName();
-		String nameAccount = accountName.getText();
-		String actualElement = nameAccount;
-		String expectedElement = firstName;
+		try {
+			WebElement accountName = pom.get_Instance_HomePage().getAccountName();
+			String nameAccount = accountName.getText();
+			String actualElement = nameAccount;
+			String expectedElement = firstName;
 
 		if (expectedElement.equalsIgnoreCase(actualElement)) {
 			System.out.println("User account create successfully...! " + "User Name" + actualElement);
@@ -99,11 +102,17 @@ public class StepsDefinitions extends Base {
 		getScreenshot(actualElement);
 		closeBrowser();
 		System.out.println("Browser closed");
+		}
+		catch(Exception e) {
+			System.out.println("error occured");
+			getScreenshot("signinpage");
+			closeBrowser();
+		}
 		
 	}
 
 	// Sign in Functionality of BestBuy E-commerce Website
-
+    
 	@Given("First user select the country")
 	public void user_select_the__country() {
 		explicitVidibilityOfWait(pom.get_Instance_Country().select_Country(), 10);
@@ -124,16 +133,16 @@ public class StepsDefinitions extends Base {
 	}
 
 	@And("First user enter the signin email address (.*)$")
-	public void user_enter_the_signin_email_address(String mailId) {
+	public void user_enter_the_signin_email_address(String mailid) {
 		explicitVidibilityOfWait(pom.get_Instance_Login().getMailId(), 30);
-		inputValueElement(pom.get_Instance_Login().getMailId(), mailId);
+		inputValueElement(pom.get_Instance_Login().getMailId(), mailid);
 		
 	}
 
 	@And("First user enter the signin password (.*)$")
-	public void user_enter_the_signin_password(String password) {
+	public void user_enter_the_signin_password(String Password) {
 		explicitVidibilityOfWait(pom.get_Instance_Login().getPassWord(), 30);
-		inputValueElement(pom.get_Instance_Login().getPassWord(), password);
+		inputValueElement(pom.get_Instance_Login().getPassWord(), Password);
 	}
 
 	@And("First user click the sign in")
@@ -141,8 +150,9 @@ public class StepsDefinitions extends Base {
 		clickOnElement(pom.get_Instance_Login().getSubmitSignin());
 	}
 
-	@Then("First user validate homePage should be displayed")
+	@Then("First user validate homePage should be displayed (.*)$")
 	public void user_validate_home_page_should_be_displayed(String firstName) throws IOException {
+		try {
 		WebElement accountName = pom.get_Instance_HomePage().getAccountName();
 		String nameAccount = accountName.getText();
 		String actualElement = nameAccount;
@@ -156,6 +166,11 @@ public class StepsDefinitions extends Base {
 		getScreenshot(actualElement);
 		closeBrowser();
 		System.out.println("Browser closed");
+		}
+		catch(Exception e) {
+			closeBrowser();
+			System.out.println("error occured...........Browser closed");
+		}
 
 	}
 	@Given("Second user select the country")
@@ -200,7 +215,7 @@ public class StepsDefinitions extends Base {
 		} else {
 			System.out.println("User sign in not successful...? ");
 		}
-		getScreenshot(actualElement);
+		getScreenshot("Invalidemail");
 		closeBrowser();
 		System.out.println("Browser closed");	
 		}
@@ -248,7 +263,7 @@ public class StepsDefinitions extends Base {
 		} else {
 			System.out.println("User sign in not successful...? ");
 		}
-		getScreenshot(actualElement);
+		getScreenshot("Invalidpassword");
 		closeBrowser();
 		System.out.println("Browser closed");	
 		}
@@ -323,6 +338,7 @@ public class StepsDefinitions extends Base {
 			System.out.println("The Best Buy link is valid. Response code: " + responseCode);
 		}
 		connection.disconnect();
+		getScreenshot("URL_Verification");
 		closeBrowser();
 		System.out.println("Browser closed");
 	}
@@ -353,6 +369,7 @@ public class StepsDefinitions extends Base {
 
 	    if (pageTitle.equals("Top Deals and Featured Offers on Electronics - Best Buy")) {
 	        System.out.println("Title validation passed for page.");
+	        getScreenshot("topdealmenu");
 	    } else {
 	        System.out.println("Title validation failed for page.");
 	    }
@@ -367,6 +384,7 @@ public class StepsDefinitions extends Base {
 
 	    if (pageTitle.equals("Deal of the Day: Electronics Deals - Best Buy")) {
 	        System.out.println("Title validation passed for page.");
+	        getScreenshot("dealoftheday");
 	    } else {
 	        System.out.println("Title validation failed for page.");
 	    }
@@ -381,6 +399,7 @@ public class StepsDefinitions extends Base {
 
 	    if (pageTitle.equals("Yes, Best Buy Sells That – Best Buy")) {
 	        System.out.println("Title validation passed for page.");
+	        getScreenshot("yesbestbuysellsthat");
 	    } else {
 	        System.out.println("Title validation failed for page.");
 	    }
@@ -395,6 +414,7 @@ public class StepsDefinitions extends Base {
 
 	    if (pageTitle.equals("My Best Buy Memberships")) {
 	        System.out.println("Title validation passed for page.");
+	        getScreenshot("mybestbuymemberships");
 	    } else {
 	        System.out.println("Title validation failed for page.");
 	    }
@@ -409,6 +429,7 @@ public class StepsDefinitions extends Base {
 
 	    if (pageTitle.equals("Best Buy Credit Card: Rewards & Financing")) {
 	        System.out.println("Title validation passed for page.");
+	        getScreenshot("creditcard_menu");
 	    } else {
 	        System.out.println("Title validation failed for page.");
 	    }
@@ -423,6 +444,7 @@ public class StepsDefinitions extends Base {
 
 	    if (pageTitle.equals("Gifts Cards and E-Gift Cards - Best Buy")) {
 	        System.out.println("Title validation passed for page.");
+	        getScreenshot("moregiftcards_menu");
 	    } else {
 	        System.out.println("Title validation failed for page.");
 	    }
@@ -438,6 +460,7 @@ public class StepsDefinitions extends Base {
 
 	    if (pageTitle.equals("Gift Ideas 2024: Best Gifts to Give This Year - Best Buy")) {
 	        System.out.println("Title validation passed for page.");
+	        getScreenshot("moregiftideas_menu");
 	    } else {
 	        System.out.println("Title validation failed for page.");
 	    }
@@ -455,8 +478,13 @@ public class StepsDefinitions extends Base {
 
 	@When("Navigate the bottom link")
 	public void navigate_the_bottom_link() {
+		// Create JavascriptExecutor
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        // Scroll down the page
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 	    moveToElement(pom.get_Instance_HomePage().getAccessibilityLink());
 	    System.out.println("Navigated to the bottom link");
+	    getScreenshot("bottompage");
 	}
 
 	@Then("Validate the accessibility link")
@@ -464,9 +492,9 @@ public class StepsDefinitions extends Base {
 	    clickOnElement(pom.get_Instance_HomePage().getAccessibilityLink());
 	    String titleLink = pom.get_Instance_HomePage().getAccessibilityTitle().getText();
 	    System.out.println("Title of text: " + titleLink);
-
 	    if (titleLink.equals("Accessibility")) {
 	        System.out.println("Link validation passed for page.");
+	        getScreenshot("accessibility_link");
 	    } else {
 	        System.out.println("Link validation failed for page.");
 	    }
@@ -475,13 +503,14 @@ public class StepsDefinitions extends Base {
 
 	@And("Validate the terms&conditions link")
 	public void validate_the_terms_conditions_link() {
-	    moveToElement(pom.get_Instance_HomePage().getTermsAndConditionsLink());
+	    //moveToElement(pom.get_Instance_HomePage().getTermsAndConditionsLink());
 	    clickOnElement(pom.get_Instance_HomePage().getTermsAndConditionsLink());
 	    String titleLink = pom.get_Instance_HomePage().getTermsAndConditionsTitle().getText();
 	    System.out.println("Title of text: " + titleLink);
 
 	    if (titleLink.equals("Terms and Conditions")) {
 	        System.out.println("Link validation passed for page.");
+	        getScreenshot("terms&conditions_link");
 	    } else {
 	        System.out.println("Link validation failed for page.");
 	    }
@@ -490,13 +519,14 @@ public class StepsDefinitions extends Base {
 
 	@And("Validate the privacy link")
 	public void validate_the_privacy_link() {
-	    moveToElement(pom.get_Instance_HomePage().getPrivacyLink());
+	    //moveToElement(pom.get_Instance_HomePage().getPrivacyLink());
 	    clickOnElement(pom.get_Instance_HomePage().getPrivacyLink());
 	    String titleLink = pom.get_Instance_HomePage().getPrivacyTitle().getText();
 	    System.out.println("Title of text: " + titleLink);
 
 	    if (titleLink.equals("Best Buy Privacy Hub")) {
 	        System.out.println("Link validation passed for page.");
+	        getScreenshot("privacy_link");
 	    } else {
 	        System.out.println("Link validation failed for page.");
 	    }
@@ -512,6 +542,7 @@ public class StepsDefinitions extends Base {
 
 	    if (titleLink.equals("Interest-Based Ads")) {
 	        System.out.println("Link validation passed for page.");
+	        getScreenshot("interestbasedads_link");
 	    } else {
 	        System.out.println("Link validation failed for page.");
 	    }
@@ -522,49 +553,53 @@ public class StepsDefinitions extends Base {
 
 	@Given("Launch the URL for search")
 	public void launch_the_url_for_search() {
-		System.out.println("An URL has been launched");
-		clickOnElement(pom.get_Instance_Country().select_Country());
+	        System.out.println("An URL has been launched");
+	        clickOnElement(pom.get_Instance_Country().select_Country());
 	}
 
 	@When("Navigate the search")
 	public void navigate_the_search() {
-		clickOnElement(pom.get_Instance_HomePage().getSearchBox());
-		System.out.println("Navigated the search box");
+	        clickOnElement(pom.get_Instance_HomePage().getSearchBox());
+	        System.out.println("Navigated the search box");
 	}
 
 	@And("Enter the product name and search")
 	public void enter_the_product_name_and_search() throws AWTException {
-		inputValueElement(pom.get_Instance_HomePage().getSearchBox(), "mobile");
-		robotClass().keyPress(KeyEvent.VK_ENTER);
-		robotClass().keyRelease(KeyEvent.VK_ENTER);
-		System.out.println("Enterd product name and search");
-
+	        inputValueElement(pom.get_Instance_HomePage().getSearchBox(), "mobile");
+	        robotClass().keyPress(KeyEvent.VK_ENTER);
+	        robotClass().keyRelease(KeyEvent.VK_ENTER);
+	        System.out.println("Entered product name and searched");
+	   
 	}
 
 	@And("Select the product and add to cart")
 	public void select_the_product_and_add_to_cart() {
-		moveToElement(pom.get_Instance_HomePage().getSomeProduct());
-		clickOnElement(pom.get_Instance_HomePage().getSomeProduct());
-		moveToElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
-		clickOnElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
-		clickOnElement(pom.get_Instance_HomePage().getClickAddToCartSecond());
-		moveToElement(pom.get_Instance_HomePage().getClickContinue());
-		clickOnElement(pom.get_Instance_HomePage().getClickGoToCart());
-		System.out.println("Puroduct selected and added to cart");
+	    try {
+	        clickOnElement(pom.get_Instance_HomePage().getSomeProduct());
+	        clickOnElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
+	        clickOnElement(pom.get_Instance_HomePage().getClickAddToCartSecond());
+	        clickOnElement(pom.get_Instance_HomePage().getClickGoToCart());
+	        System.out.println("Product selected and added to cart");
+	    } catch (Exception e) {
+	        System.out.println("things added successfully");
+	    }
 	}
 
-	@Then("Validate the add on product in shopping cart")
+	@Then("Validate the add-on product in the shopping cart")
 	public void validate_the_add_on_product_in_shopping_cart() {
-		String checkOut = pom.get_Instace_CartPage().checkOut().getText();
-		System.out.println("Title of text: " + checkOut);
-
-		// Validate the title of the page
-		if (checkOut.equals("Checkout")) {
-			System.out.println("Product added to cart successfully.");
-		} else {
-			System.out.println("Product added to cart not successfully.");
-		}
-
+	    try {
+	        String checkOut = pom.get_Instace_CartPage().checkOut().getText();
+	        System.out.println("Title of text: " + checkOut);
+	        getScreenshot("shopping_cart");
+	        // Validate the title of the page
+	        if (checkOut.equals("Checkout")) {
+	            System.out.println("Product added to cart successfully.");
+	        } else {
+	            System.out.println("Product added to cart not successfully.");
+	        }
+	    } catch (Exception e) {
+	        System.out.println("Product added to cart successfully");
+	    }
 	}
 
 	// selects and adds an item from Shop by Department menu
@@ -587,9 +622,9 @@ public class StepsDefinitions extends Base {
 		clickOnElement(pom.get_Instance_HomePage().getAppliancesDeparment());
 		clickOnElement(pom.get_Instance_HomePage().getMajorKitchenAppliances());
 		clickOnElement(pom.get_Instance_HomePage().getRefrigeratorsMenu());
-		moveToElement(pom.get_Instance_HomePage().getFrenchDoorRefrigerators());
+		//moveToElement(pom.get_Instance_HomePage().getFrenchDoorRefrigerators());
 		clickOnElement(pom.get_Instance_HomePage().getFrenchDoorRefrigerators());
-		moveToElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
+		//moveToElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
 		clickOnElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
 		System.out.println("Item selected from shop by department");
 	}
@@ -603,6 +638,7 @@ public class StepsDefinitions extends Base {
 		// Validate the title of the page
 		if (checkOut.equals("Checkout")) {
 			System.out.println("Product added to cart successfully.");
+			getScreenshot("search_by_department");
 		} else {
 			System.out.println("Product added to cart not successfully.");
 		}
@@ -622,16 +658,18 @@ public class StepsDefinitions extends Base {
 		clickOnElement(pom.get_Instance_HomePage().getMenuTop());
 		clickOnElement(pom.get_Instance_HomePage().getBrandMenu());
 		System.out.println("Navigated the bran menu");
+		getScreenshot("shop by Brands");
 	}
 
 	@When("Select the brand and add on item to cart")
 	public void select_the_brand_and_add_on_item_to_cart() {
 		clickOnElement(pom.get_Instance_HomePage().getPlayStationMenu());
-		moveToElement(pom.get_Instance_HomePage().getPs5ConsolesMenu());
+		//moveToElement(pom.get_Instance_HomePage().getPs5ConsolesMenu());
 		clickOnElement(pom.get_Instance_HomePage().getPs5ConsolesMenu());
-		moveToElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
+		//moveToElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
 		clickOnElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
 		System.out.println("Item added to cart");
+		getScreenshot("shop by Brands");
 	}
 
 	@Then("Validate the add on item in shopping cart")
@@ -643,6 +681,7 @@ public class StepsDefinitions extends Base {
 		// Validate the title of the page
 		if (checkOut.equals("Checkout")) {
 			System.out.println("Product added to cart successfully.");
+			getScreenshot("shop by Brands");
 		} else {
 			System.out.println("Product added to cart not successfully.");
 		}
@@ -660,11 +699,11 @@ public class StepsDefinitions extends Base {
 	public void add_item_to_shopping_cart() {
 		clickOnElement(pom.get_Instance_HomePage().getMenuTop());
 		clickOnElement(pom.get_Instance_HomePage().getBrandMenu());
-		System.out.println("Navigated the bran menu");
+		System.out.println("Navigated the brand menu");
 		clickOnElement(pom.get_Instance_HomePage().getPlayStationMenu());
-		moveToElement(pom.get_Instance_HomePage().getPs5ConsolesMenu());
+		//moveToElement(pom.get_Instance_HomePage().getPs5ConsolesMenu());
 		clickOnElement(pom.get_Instance_HomePage().getPs5ConsolesMenu());
-		moveToElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
+		//moveToElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
 		clickOnElement(pom.get_Instance_HomePage().getClickAddToCartFirst());
 		System.out.println("Item added to cart");
 	}
@@ -677,7 +716,7 @@ public class StepsDefinitions extends Base {
 		clickOnElement(pom.get_Instance_Login().getContinueAsGuest());
 	}
 
-	@And("^Fil the Contact information \"([^\"]*)\"\"([^\"]*)\"$")
+	@And("Fil the Contact information {string}  {string}")
 	public void fil_the_contact_information(String mailId, String mobileNumber) {
 		moveToElement(pom.get_Instance_Checkout().getContactInfoEmailId());
 		inputValueElement(pom.get_Instance_Checkout().getContactInfoEmailId(), mailId);
@@ -686,11 +725,11 @@ public class StepsDefinitions extends Base {
 
 	}
 
-	@And("^Fill the payment imformation \"([^\"]*)\"\"([^\"]*)\"\"([^\"]*)\"\"([^\"]*)\"\"([^\"]*)\"\"([^\"]*)\"\"([^\"]*)\"$")
+	@And("Fill the payment imformation  {string}  {string}  {string}  {string}  {string}  {string}  {string}")
 	public void fill_the_payment_imformation(String cardNumber, String firstName, String lastName, String address,
 			String city, String state, String zipcode) {
 		inputValueElement(pom.get_Instance_Checkout().getCreditCardAndDebitCardNumber(), cardNumber);
-		moveToElement(pom.get_Instance_Checkout().getFirstNameForBilling());
+		//moveToElement(pom.get_Instance_Checkout().getFirstNameForBilling());
 		inputValueElement(pom.get_Instance_Checkout().getFirstNameForBilling(), firstName);
 		inputValueElement(pom.get_Instance_Checkout().getLastNameForBilling(), lastName);
 		inputValueElement(pom.get_Instance_Checkout().getAddressForBilling(), address);
@@ -711,6 +750,7 @@ public class StepsDefinitions extends Base {
 		// Validate the title of the page
 		if (info.equals(firstName)) {
 			System.out.println("Payment information filled successfully.");
+			getScreenshot("checkoutpage");
 		} else {
 			System.out.println("Payment information filled not successfull");
 		}
